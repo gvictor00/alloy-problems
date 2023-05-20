@@ -9,6 +9,8 @@ To solve the problems, we use the Alloy Tool 6.0 on the [latest build](https://a
 
 ## Solving Problems
 
+- [Barraca de Paste](https://rachacuca.com.br/logica/problemas/barraca-de-pastel/)
+
 ## Solved Problems
 
 - [Fila do Banco](https://rachacuca.com.br/logica/problemas/fila-do-banco/)
