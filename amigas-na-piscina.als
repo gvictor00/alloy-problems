@@ -15,9 +15,13 @@ sig Menina{
 	nome: one Nome,
 	suco: one Suco,
 	animal: one Animal, 
-	protetor: Int,
-	idade: Int,
- 	pos: Int
+	protetor: Int, // 1 = 40, 2 = 45, 3 = 50, 4 = 55
+	idade: Int, // 1 = 8, 2 = 9, 3 = 10, 4 = 11
+ 	pos: Int 
+}
+
+pred estaNaPonta[m: Menina] {
+	m.pos = 1 or m.pos = 4
 }
 
 fact {
@@ -26,17 +30,33 @@ fact {
 	nome in Menina one -> one Nome
 	suco in Menina one -> one Suco
 	animal in Menina one -> one Animal
-//	idade in Menina one -> one (8 + 9 + 10 + 11)
-//	idade in Menina one -> one (40 + 45 + 50 + 55)
+	protetor in Menina one -> one (1 + 2 + 3 + 4)
+	idade in Menina one -> one (1 + 2 + 3 + 4)
 }
 
+fact {
+	// Na terceira posição está a menina que gosta de Cachorros.
+	some m : Menina | m.pos = 3 and m.animal = cachorros
+
+	// Quem gosta de Peixes está em uma das pontas.
+	some m: Menina | estaNaPonta[m] and m.animal = peixes
+	
+	// A garota que gosta de Gatos está na primeira posição.
+	some m: Menina | m.animal = gatos and m.pos = 1
+
+	// Ana usa protetor solar de FPS 50.
+	some m: Menina | m.nome = nome_ana and m.protetor = 3
+	
+	// Na segunda posição está a menina que usa filtro solar com FPS 55.
+	some m: Menina | m.pos = 2 and m.protetor = 4
+
+	// A garota mais nova está ao lado da que usa protetor solar de menor FPS.
+	some m: Menina | m.idade = 1 and m.protetor = 1
+	
+} 
+
 /*
-Na terceira posição está a menina que gosta de Cachorros.
-Quem gosta de Peixes está em uma das pontas.
-A garota que gosta de Gatos está na primeira posição.
-Ana usa protetor solar de FPS 50.
-Na segunda posição está a menina que usa filtro solar com FPS 55.
-A garota mais nova está ao lado da que usa protetor solar de menor FPS.
+
 Quem gosta de suco de Morango está na quarta posição.
 A menina que gosta de suco de Maracujá está ao lado da que gosta de Pássaros.
 A menina que gosta de limonada está ao lado da que gosta de suco de Maracujá.

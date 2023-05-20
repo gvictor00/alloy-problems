@@ -9,9 +9,8 @@ To solve the problems, we use the Alloy Tool 6.0 on the [latest build](https://a
 
 ## Solving Problems
 
-- [Amigas na piscina](https://rachacuca.com.br/logica/problemas/amigas-na-piscina/)
-
 ## Solved Problems
 
 - [Fila do Banco](https://rachacuca.com.br/logica/problemas/fila-do-banco/)
 - [Amigas na Escola](https://rachacuca.com.br/logica/problemas/amigas-na-escola/)
+- [Amigas na piscina](https://rachacuca.com.br/logica/problemas/amigas-na-piscina/)
