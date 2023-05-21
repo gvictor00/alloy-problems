@@ -24,10 +24,27 @@ pred estaNaPonta[m: Menina] {
 	m.pos = 1 or m.pos = 4
 }
 
+pred estaNaEsquerdaImediata[m1: Menina, m2: Menina] {
+	m1.pos = sub[m2.pos, 1]
+}
+
+pred estaNaDireitaImediata[m1: Menina, m2: Menina] {
+	m1.pos = add[m2.pos, 1]
+}
+
+pred estaAoLado[m1: Menina, m2: Menina]{
+	estaNaDireitaImediata[m1,m2] or estaNaEsquerdaImediata[m1,m2]
+}
+
+pred algumLugarAEsquerda[m1: Menina, m2: Menina]{
+	m1.pos < m2.pos
+}
+
 fact {
 	#Menina = 4
 	pos in Menina one -> one (1 + 2 + 3 + 4)
 	nome in Menina one -> one Nome
+	maio in Menina one -> one Maio
 	suco in Menina one -> one Suco
 	animal in Menina one -> one Animal
 	protetor in Menina one -> one (1 + 2 + 3 + 4)
@@ -51,23 +68,40 @@ fact {
 	some m: Menina | m.pos = 2 and m.protetor = 4
 
 	// A garota mais nova está ao lado da que usa protetor solar de menor FPS.
-	some m: Menina | m.idade = 1 and m.protetor = 1
+	some m1, m2: Menina | m1.idade = 1 and m2.protetor = 1 and estaAoLado[m1,m2]
 	
+	// Quem gosta de suco de Morango está na quarta posição.
+	some m: Menina | m.suco = suco_morango and m.pos = 4
+
+	// A menina que gosta de suco de Maracujá está ao lado da que gosta de Pássaros.
+	estaAoLado[(suco.suco_maracuja),(animal.passaros)]
+
+	// A menina que gosta de limonada está ao lado da que gosta de suco de Maracujá.
+	estaAoLado[(suco.suco_limao), (suco.suco_maracuja)]
+
+	// Quem gosta de suco de Laranja está em uma das pontas.
+	estaNaPonta[(suco.suco_laranja)]
+
+	// A menina de maiô Azul está em algum lugar à esquerda da menina de 9 anos.
+	some m1,m2 : Menina | algumLugarAEsquerda[m1,m2] and m1.maio = maio_azul and m2.idade = 2
+
+	// A garota de 8 anos está na quarta posição.
+	some m : Menina | m.idade = 1 and m.pos = 4
+
+	// A garota de 11 anos está em uma das pontas.
+	some m: Menina | m.idade = 4 and estaNaPonta[m]
+	
+	// Vivian gosta de Pássaros.
+	some m: Menina | m.nome = nome_vivian and m.animal = passaros
+
+	// Raquel está na primeira posição.
+	some m: Menina | m.nome = nome_raquel and m.pos = 1
+
+	// A menina de maiô Verde está na quarta posição.
+	some m: Menina | m.maio = maio_verde and m.pos = 4
+
+	// A menina de maiô Branco está em uma das pontas.
+	some m: Menina | m.maio = maio_branco and estaNaPonta[m]
 } 
-
-/*
-
-Quem gosta de suco de Morango está na quarta posição.
-A menina que gosta de suco de Maracujá está ao lado da que gosta de Pássaros.
-A menina que gosta de limonada está ao lado da que gosta de suco de Maracujá.
-Quem gosta de suco de Laranja está em uma das pontas.
-A menina de maiô Azul está em algum lugar à esquerda da menina de 9 anos.
-A garota de 8 anos está na quarta posição.
-A garota de 11 anos está em uma das pontas.
-Vivian gosta de Pássaros.
-Raquel está na primeira posição.
-A menina de maiô Verde está na quarta posição.
-A menina de maiô Branco está em uma das pontas.
-*/
 
 run {} for 10	
